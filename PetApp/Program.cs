@@ -1,7 +1,7 @@
 ﻿using PetApp;
 using PetDL.Entities;
 using PetDL;
-using PetBL;
+using BL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -20,5 +20,5 @@ DbContextOptions<petdbContext> options = new DbContextOptionsBuilder<petdbContex
 //passing the options we just built
 var context = new petdbContext(options);
 
-IMenu menu = new MainMenu(new CatBL(new PetRepo(context)));
+IMenu menu = new MainMenu(new PetBL(new PetRepo(context)));
 menu.Start(); 
