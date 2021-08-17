@@ -1,10 +1,10 @@
 using Models;
 
-namespace PetDL
+namespace BL
 {
-    public interface IPetRepo
+    public interface IPetBL
     {
-        List<Cat> GetAllCats();
+        List<Cat> ViewAllCats();
 
         Cat AddACat(Cat cat);
 

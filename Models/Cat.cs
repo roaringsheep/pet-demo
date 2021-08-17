@@ -4,8 +4,20 @@ namespace Models
     {
         public Cat() {}
 
-        public string? Name {get; set;}
+        public Cat(string name)
+        {
+            this.Name = name;
+        }
 
-        public List<Meal>? Meals { get; set; }
+        public Cat(int id, string name)
+        {
+            this.Id = id;
+            this.Name = name;
+        }
+        public int Id {get; set;}
+
+        public string Name {get; set;}
+
+        public List<Meal> Meals { get; set; }
     }
 }
