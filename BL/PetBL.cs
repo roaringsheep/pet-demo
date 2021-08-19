@@ -26,5 +26,21 @@ namespace BL
         {
             return _repo.AddAMeal(meal);
         }
+
+        public Cat SearchCatByName(string name)
+        {
+            return _repo.SearchCatByName(name);
+        }
+
+        public List<Meal> GetMealsByCatId(int catId)
+        {
+            return _repo.GetMealsByCatId(catId);
+        }
+
+        public void DeleteACat(Cat cat)
+        {
+            _repo.DeleteACat(cat);
+        }
+
     }
 }

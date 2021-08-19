@@ -1,5 +1,7 @@
 using Models;
 using PetDL.Entities;
+using System.Linq;
+
 
 namespace PetDL
 {
@@ -44,5 +46,40 @@ namespace PetDL
             _context.ChangeTracker.Clear();
             return meal;
         }
+
+        public Models.Cat SearchCatByName(string name)
+        {
+            Entities.Cat foundCat =  _context.Cats
+                .FirstOrDefault(cat => cat.Name == name);
+            if(foundCat != null)
+            {
+                return new Models.Cat(foundCat.Id, foundCat.Name);
+            }
+            return new Models.Cat();
+        }
+
+        public List<Models.Meal> GetMealsByCatId(int catId)
+        {
+            return _context.Meals
+                    .Where(meal => meal.CatId == catId)
+                    .Select(meal => new Models.Meal{
+                        Time = meal.Time,
+                        CatId = (int) meal.CatId,
+                        FoodType = meal.FoodType
+                    })
+                    .ToList();
+        }
+
+        public void DeleteACat(Models.Cat cat)
+        {
+            Entities.Cat catToDelete = new Entities.Cat
+            {
+                Id = cat.Id,
+                Name = cat.Name
+            };
+            _context.Cats.Remove(catToDelete);
+            _context.SaveChanges();
+        }
+
     }
 }

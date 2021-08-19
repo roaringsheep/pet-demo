@@ -19,6 +19,9 @@ namespace PetApp
                 Console.WriteLine("[1] Add a cat");
                 Console.WriteLine("[2] Feed a cat");
                 Console.WriteLine("[3] View all cats");
+                Console.WriteLine("[4] Search for a cat");
+                Console.WriteLine("[5] View a cat's meal");
+                Console.WriteLine("[6] Remove a cat");
 
                 switch(Console.ReadLine())
                 {
@@ -36,6 +39,18 @@ namespace PetApp
 
                     case "3":
                         ViewAllCats();
+                    break;
+
+                    case "4":
+                        SearchCatByName();
+                    break;
+
+                    case "5":
+                        ViewMealsByCat();
+                    break;
+
+                    case "6":
+                        DeleteACat();
                     break;
 
                     default:
@@ -130,6 +145,51 @@ namespace PetApp
                 Console.WriteLine("Enter a valid number");
             } while(true);
 
+        }
+
+        private void SearchCatByName()
+        {
+            string input;
+            Console.WriteLine("Enter the name of the cat to search: ");
+            input = Console.ReadLine();
+
+            Cat foundCat = _petBL.SearchCatByName(input);
+            if(foundCat.Name is null)
+            {
+                Console.WriteLine($"{input} is missing, please return them asap :'(");
+            }
+            else {
+                Console.WriteLine("We found the cat! {0}", foundCat.Name);
+            }
+        }
+
+        private void ViewMealsByCat()
+        {
+            List<Cat> cats = _petBL.ViewAllCats();
+            Cat selectedCat = SelectACat(cats, "Pick a cat to feed");
+            List<Meal> meals = _petBL.GetMealsByCatId(selectedCat.Id);
+            if(meals.Count == 0) Console.WriteLine("No meal was found");
+            else
+            {
+                foreach(Meal meal in meals)
+                {
+                    Console.WriteLine(
+                        $"FoodType: {meal.FoodType}, Time {meal.Time}"
+                    );
+                }
+            }
+        }
+
+        private void DeleteACat()
+        {
+            List<Cat> cats = _petBL.ViewAllCats();
+            Cat selectedCat = SelectACat(cats, "Pick a cat to remove");
+            _petBL.DeleteACat(selectedCat);
+            cats = _petBL.ViewAllCats();
+            foreach(Cat cat in cats)
+            {
+                Console.WriteLine(cat.Name);
+            }
         }
     }
 }
